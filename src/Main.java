@@ -1,3 +1,5 @@
+import graph.Tree;
+
 import java.util.Scanner;
 
 public class Main {
@@ -8,7 +10,7 @@ public class Main {
         int m = new Scanner(System.in).nextInt();
 
         Tree tree = new Tree();
-        tree.setM(m);
+        tree.setEdgesQuantity(m);
         tree.setNodesQuantity(N);
         tree.generate();
         tree.print();

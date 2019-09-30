@@ -1,3 +1,5 @@
+package graph;
+
 public class Node {
     private Node parent;
     private int number;
@@ -9,6 +11,11 @@ public class Node {
 
     public Node(int number) {
         this.isHanging = true;
+        this.number = number;
+    }
+
+    public Node(Node parent, int number) {
+        this.parent = parent;
         this.number = number;
     }
 
