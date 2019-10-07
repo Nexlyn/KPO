@@ -10,13 +10,13 @@ public class Node {
     }
 
     public Node(int number) {
-        this.isHanging = true;
+        this();
         this.number = number;
     }
 
     public Node(Node parent, int number) {
+        this(number);
         this.parent = parent;
-        this.number = number;
     }
 
     public Node getParent() {
@@ -45,6 +45,6 @@ public class Node {
 
     @Override
     public String toString() {
-        return parent == null ? "0" : parent.getNumber() + "-" + number;
+        return (parent == null ? "0" : parent.getNumber()) + "-" + number;
     }
 }

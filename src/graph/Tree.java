@@ -64,6 +64,8 @@ public class Tree {
                     }
                 }
             }
+
+            if (currentLevel.nodesQuantity() == 0) return;
         }
     }
 
@@ -82,10 +84,7 @@ public class Tree {
 
         for (int i = 0; i < levels.size(); i++) {
             Level level = getLevel(i + 1);
-
             if (level.containsHanging()) {
-                System.out.print("Level " + (i + 1) + ": ");
-
                 for (int j = 0; j < level.nodesQuantity(); j++) {
                     Node node = level.getNode(j);
                     if (node.isHanging()) {
