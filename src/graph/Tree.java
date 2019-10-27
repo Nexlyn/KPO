@@ -6,38 +6,29 @@ import java.util.Random;
 
 public class Tree {
     private ArrayList<Level> levels;
-    private int edgesQuantity;
     private int nodesQuantity;
 
     public Tree() {
-        levels = new ArrayList<>();
-    }
-
-    public int getEdgesQuantity() {
-        return edgesQuantity;
-    }
-
-    public void setEdgesQuantity(int edgesQuantity) {
-        this.edgesQuantity = edgesQuantity;
+        this.levels = new ArrayList<>();
+        this.nodesQuantity = 0;
     }
 
     public int getNodesQuantity() {
         return nodesQuantity;
     }
 
-    public void setNodesQuantity(int nodesQuantity) {
-        this.nodesQuantity = nodesQuantity;
-    }
+    public void generate(int n, int m) {
+        nodesQuantity = 0;
+        levels = new ArrayList<>();
 
-    public void generate() {
         //root node
         levels.add(new Level(new Node(1)));
-        nodesQuantity--;
+        n--;
 
         int level = 1;
-        int number = 2;
+        nodesQuantity = 1;
 
-        while (nodesQuantity > 0) {
+        while (n > 0) {
             level++;
             levels.add(new Level());
 
@@ -49,24 +40,32 @@ public class Tree {
                 Node currentNode = previousLevel.getNode(i);
 
                 //generating child nodes
-                int nodesToGenerate = new Random().nextInt(edgesQuantity);
+                int nodesToGenerate = new Random().nextInt(m);
                 for (int j = 0; j < nodesToGenerate; j++) {
-                    Node nodeToAdd = new Node(currentNode, number);
+                    nodesQuantity++;
+                    Node nodeToAdd = new Node(currentNode, nodesQuantity);
                     currentNode.setHanging(false);
-                    number++;
+                    currentLevel.addNode(nodeToAdd);
 
                     //stop rule
-                    currentLevel.addNode(nodeToAdd);
-                    if (nodesQuantity == 1) {
+                    if (n == 1) {
                         return;
                     } else {
-                        nodesQuantity--;
+                        n--;
                     }
                 }
             }
 
             if (currentLevel.nodesQuantity() == 0) return;
         }
+    }
+
+    public double alpha() {
+        double hangingNodesQuantity = 0;
+        for (Level level : levels) {
+            hangingNodesQuantity += level.nodes.stream().filter(Node::isHanging).count();
+        }
+        return nodesQuantity / hangingNodesQuantity;
     }
 
     public void print() {
@@ -100,7 +99,7 @@ public class Tree {
         return levels.get(level - 1);
     }
 
-    private class Level {
+    private static class Level {
         private ArrayList<Node> nodes;
 
         Level() {

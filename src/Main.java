@@ -8,11 +8,19 @@ public class Main {
         int N = new Scanner(System.in).nextInt();
         System.out.print("m: ");
         int m = new Scanner(System.in).nextInt();
+        System.out.print("R: ");
+        int R = new Scanner(System.in).nextInt();
+
+        long beginTime = System.currentTimeMillis();
 
         Tree tree = new Tree();
-        tree.setEdgesQuantity(m);
-        tree.setNodesQuantity(N);
-        tree.generate();
-        tree.print();
+        for (int i = 0; i < R; i++) {
+            do {
+                tree.generate(N, m);
+            } while (tree.getNodesQuantity() < 10);
+            System.out.println("Tree №" + (i + 1) + ":\tn = " + tree.getNodesQuantity() + "\t\ta = " + tree.alpha());
+        }
+
+        System.out.println("Done. " + (System.currentTimeMillis() - beginTime) + "ms");
     }
 }
