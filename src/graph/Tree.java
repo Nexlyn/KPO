@@ -7,6 +7,8 @@ import java.util.Random;
 public class Tree {
     private ArrayList<Level> levels;
     private int nodesQuantity;
+    private int n;
+    private int m;
 
     public Tree() {
         this.levels = new ArrayList<>();
@@ -17,18 +19,47 @@ public class Tree {
         return nodesQuantity;
     }
 
-    public void generate(int n, int m) {
+    public int getN() {
+        return n;
+    }
+
+    public void setN(int n) {
+        this.n = n;
+    }
+
+    public int getM() {
+        return m;
+    }
+
+    public void setM(int m) {
+        this.m = m;
+    }
+
+    public int levelsQuantity() {
+        return levels.size();
+    }
+
+    public int hangingNodesQuantity() {
+        int hangingNodesQuantity = 0;
+        for (Level level : levels) {
+            hangingNodesQuantity += level.nodes.stream().filter(Node::isHanging).count();
+        }
+        return hangingNodesQuantity;
+    }
+
+    public void generate() {
         nodesQuantity = 0;
         levels = new ArrayList<>();
 
         //root node
         levels.add(new Level(new Node(1)));
-        n--;
+        int nodesToGenerate = n;
+        nodesToGenerate--;
 
         int level = 1;
         nodesQuantity = 1;
 
-        while (n > 0) {
+        while (nodesToGenerate > 0) {
             level++;
             levels.add(new Level());
 
@@ -40,32 +71,87 @@ public class Tree {
                 Node currentNode = previousLevel.getNode(i);
 
                 //generating child nodes
-                int nodesToGenerate = new Random().nextInt(m);
-                for (int j = 0; j < nodesToGenerate; j++) {
+                int childNodesToGenerate = new Random().nextInt(m);
+                currentNode.setChildQuantity(childNodesToGenerate);
+                for (int j = 0; j < childNodesToGenerate; j++) {
                     nodesQuantity++;
                     Node nodeToAdd = new Node(currentNode, nodesQuantity);
                     currentNode.setHanging(false);
                     currentLevel.addNode(nodeToAdd);
 
                     //stop rule
-                    if (n == 1) {
+                    if (nodesToGenerate == 1) {
                         return;
                     } else {
-                        n--;
+                        nodesToGenerate--;
                     }
                 }
             }
-
             if (currentLevel.nodesQuantity() == 0) return;
         }
     }
 
-    public double alpha() {
-        double hangingNodesQuantity = 0;
-        for (Level level : levels) {
-            hangingNodesQuantity += level.nodes.stream().filter(Node::isHanging).count();
+    public void generateDetermined() {
+        nodesQuantity = 0;
+        levels = new ArrayList<>();
+
+        //root node
+        levels.add(new Level(new Node(1)));
+        int nodesToGenerate = n;
+        nodesToGenerate--;
+
+        int level = 1;
+        nodesQuantity = 1;
+
+        while (nodesToGenerate > 0) {
+            level++;
+            levels.add(new Level());
+
+            Level previousLevel = getLevel(level - 1);
+            Level currentLevel = getLevel(level);
+
+            //filling the level
+            for (int i = 0; i < previousLevel.nodesQuantity(); i++) {
+                Node currentNode = previousLevel.getNode(i);
+
+                //generating child nodes
+                int childNodesToGenerate = m - 1;
+                currentNode.setChildQuantity(childNodesToGenerate);
+                for (int j = 0; j < childNodesToGenerate; j++) {
+                    nodesQuantity++;
+                    Node nodeToAdd = new Node(currentNode, nodesQuantity);
+                    currentNode.setHanging(false);
+                    currentLevel.addNode(nodeToAdd);
+
+                    //stop rule
+                    if (nodesToGenerate == 1) {
+                        return;
+                    } else {
+                        nodesToGenerate--;
+                    }
+                }
+            }
+            if (currentLevel.nodesQuantity() == 0) return;
+
         }
-        return nodesQuantity / hangingNodesQuantity;
+    }
+
+    public double alpha() {
+        return (double)nodesQuantity / hangingNodesQuantity();
+    }
+
+    public void printBarGraph() {
+        System.out.println("\nChild Nodes Quantity Graph");
+
+        for (int i = 0; i < m; i++) {
+            System.out.print(i + ": ");
+            int nodesQuantity = 0;
+            for (Level level : levels) {
+                int n = i;
+                nodesQuantity += level.nodes.stream().filter(node -> node.getChildQuantity() == n).count();
+            }
+            System.out.println(nodesQuantity);
+        }
     }
 
     public void print() {
