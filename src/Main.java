@@ -12,24 +12,47 @@ public class Main {
         int R = new Scanner(System.in).nextInt();
 
         long beginTime = System.currentTimeMillis();
+
         Tree tree = new Tree();
         tree.setN(N);
         tree.setM(m);
-        System.out.println("Task 1, 2:");
 
+        do {
+            tree.generate();
+        } while (tree.nodesQuantity() < 10);
+
+        System.out.println("Задание 1:\nТаблица вершин:");
+        tree.printNodesTable();
+        System.out.println("\nТаблица висячих вершин:");
+        tree.printHangingNodesTable();
+        System.out.println("\nГистограмма случайных значений числа исходящих из узлов рёбер:");
+        tree.printChildQuantityDistribution();
+        System.out.println("\nМат. ожидание числа исходящих из узла ребер: " + tree.expectedChildQuantity());
+
+
+        System.out.println("\n\nЗадание 2:\nИсходные данные: N = " + tree.getN() + ", m = " + tree.getM() +
+                "\nТаблица вершин:");
+        tree.printNodesTable();
+        System.out.println("\nТаблица висячих вершин:");
+        tree.printHangingNodesTable();
+
+        System.out.println("\n\nЗадание 3:\nИсходные данные: N = " + tree.getN() + ", m = " + tree.getM() +
+                "\nТаблица вершин:");
         tree.generateDetermined();
-        tree.print();
-        tree.printBarGraph();
+        tree.printNodesTable();
+        System.out.println("\nТаблица висячих вершин:");
+        tree.printHangingNodesTable();
+
+        System.out.println("\n\nЗадание 4:\nα, число вершин, число висячих вершин, высота дерева");
 
         for (int i = 0; i < R; i++) {
             do {
                 tree.generate();
-            } while (tree.getNodesQuantity() < 10);
-            System.out.println("Tree №" + (i + 1) +
-                    ":\tn = " + tree.getNodesQuantity() +
-                    "\t\tlevels: " + tree.levelsQuantity() +
-                    "\t\thanging nodes: " + tree.hangingNodesQuantity() +
-                    "\t\ta = " + tree.alpha());
+            } while (tree.nodesQuantity() < 10);
+            System.out.println(String.format("%.4f", tree.alpha()) +
+                    "\t" + tree.nodesQuantity() +
+                    "\t" + tree.hangingNodesQuantity() +
+                    "\t" + tree.levelsQuantity());
         }
 
         System.out.println("Done. " + (System.currentTimeMillis() - beginTime) + "ms");
