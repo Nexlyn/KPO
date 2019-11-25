@@ -130,6 +130,50 @@ public class Tree {
         }
     }
 
+    public void generateWithAlpha() {
+        levels = new ArrayList<>();
+
+        //root node
+        levels.add(new Level(new Node(1)));
+        int nodesToGenerate = n - 1;
+        nodesQuantity = 1;
+
+        int level = 1;
+
+        while (nodesToGenerate > 0) {
+            level++;
+            levels.add(new Level());
+
+            Level previousLevel = getLevel(level - 1);
+            Level currentLevel = getLevel(level);
+
+            //filling the level
+            for (int i = 0; i < previousLevel.nodesQuantity(); i++) {
+                Node currentNode = previousLevel.getNode(i);
+
+                //generating child nodes
+                int childNodesToGenerate = new Random().nextInt(m);
+                currentNode.setChildQuantity(childNodesToGenerate);
+                for (int j = 0; j < childNodesToGenerate; j++) {
+                    nodesQuantity++;
+                    Node nodeToAdd = new Node(currentNode, nodesQuantity);
+                    currentNode.setHanging(false);
+                    currentLevel.addNode(nodeToAdd);
+
+                    System.out.println(nodesQuantity + " " + alpha());
+
+                    //stop rule
+                    if (nodesToGenerate == 1) {
+                        return;
+                    } else {
+                        nodesToGenerate--;
+                    }
+                }
+            }
+            if (currentLevel.nodesQuantity() == 0) return;
+        }
+    }
+
     public double alpha() {
         return (double)nodesQuantity / hangingNodesQuantity();
     }

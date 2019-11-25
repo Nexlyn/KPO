@@ -18,7 +18,7 @@ public class Main {
         tree.setM(m);
 
         do {
-            tree.generate();
+            tree.generateWithAlpha();
         } while (tree.nodesQuantity() < 10);
 
         System.out.println("Задание 1:\nТаблица вершин:");
@@ -45,15 +45,32 @@ public class Main {
 
         System.out.println("\n\nЗадание 4:\nα, число вершин, число висячих вершин, высота дерева");
 
+        double averageAlpha = 0;
+        double averageNodesQuantity = 0;
+        double averageHangingNodesQuantity = 0;
+        double averageLevelsQuantity = 0;
         for (int i = 0; i < R; i++) {
             do {
                 tree.generate();
             } while (tree.nodesQuantity() < 10);
+            averageAlpha += tree.alpha();
+            averageNodesQuantity += tree.nodesQuantity();
+            averageHangingNodesQuantity += tree.hangingNodesQuantity();
+            averageLevelsQuantity += tree.levelsQuantity();
             System.out.println(String.format("%.4f", tree.alpha()) +
                     "\t" + tree.nodesQuantity() +
                     "\t" + tree.hangingNodesQuantity() +
                     "\t" + tree.levelsQuantity());
         }
+        averageAlpha /= R;
+        averageNodesQuantity /= R;
+        averageHangingNodesQuantity /= R;
+        averageLevelsQuantity /= R;
+        System.out.println("Средние значения: " +
+                String.format("%.4f", averageAlpha) + " " +
+                averageNodesQuantity + " " +
+                averageHangingNodesQuantity + " " +
+                averageLevelsQuantity);
 
         System.out.println("Done. " + (System.currentTimeMillis() - beginTime) + "ms");
     }
