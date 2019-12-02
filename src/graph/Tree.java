@@ -47,10 +47,12 @@ public class Tree {
         return hangingNodesQuantity;
     }
 
-    public void generate() {
+    /**
+     * Генерация дерева
+     */
+    public void generate(boolean isDetermined, boolean withAlpha) {
         levels = new ArrayList<>();
 
-        //root node
         levels.add(new Level(new Node(1)));
         int nodesToGenerate = n - 1;
         nodesQuantity = 1;
@@ -64,12 +66,11 @@ public class Tree {
             Level previousLevel = getLevel(level - 1);
             Level currentLevel = getLevel(level);
 
-            //filling the level
             for (int i = 0; i < previousLevel.nodesQuantity(); i++) {
                 Node currentNode = previousLevel.getNode(i);
 
-                //generating child nodes
-                int childNodesToGenerate = new Random().nextInt(m);
+                int childNodesToGenerate = m - 1;
+                if (!isDetermined) childNodesToGenerate = new Random().nextInt(m);
                 currentNode.setChildQuantity(childNodesToGenerate);
                 for (int j = 0; j < childNodesToGenerate; j++) {
                     nodesQuantity++;
@@ -77,7 +78,8 @@ public class Tree {
                     currentNode.setHanging(false);
                     currentLevel.addNode(nodeToAdd);
 
-                    //stop rule
+                    if (withAlpha) System.out.println(nodesQuantity + "\t" + alpha());
+
                     if (nodesToGenerate == 1) {
                         return;
                     } else {
@@ -89,95 +91,16 @@ public class Tree {
         }
     }
 
-    public void generateDetermined() {
-        levels = new ArrayList<>();
-
-        //root node
-        levels.add(new Level(new Node(1)));
-        int nodesToGenerate = n - 1;
-        nodesQuantity = 1;
-
-        int level = 1;
-
-        while (nodesToGenerate > 0) {
-            level++;
-            levels.add(new Level());
-
-            Level previousLevel = getLevel(level - 1);
-            Level currentLevel = getLevel(level);
-
-            //filling the level
-            for (int i = 0; i < previousLevel.nodesQuantity(); i++) {
-                Node currentNode = previousLevel.getNode(i);
-
-                //generating child nodes
-                currentNode.setChildQuantity(m - 1);
-                for (int j = 0; j < m - 1; j++) {
-                    nodesQuantity++;
-                    Node nodeToAdd = new Node(currentNode, nodesQuantity);
-                    currentNode.setHanging(false);
-                    currentLevel.addNode(nodeToAdd);
-
-                    //stop rule
-                    if (nodesToGenerate == 1) {
-                        return;
-                    } else {
-                        nodesToGenerate--;
-                    }
-                }
-            }
-            if (currentLevel.nodesQuantity() == 0) return;
-        }
-    }
-
-    public void generateWithAlpha() {
-        levels = new ArrayList<>();
-
-        //root node
-        levels.add(new Level(new Node(1)));
-        int nodesToGenerate = n - 1;
-        nodesQuantity = 1;
-
-        int level = 1;
-
-        while (nodesToGenerate > 0) {
-            level++;
-            levels.add(new Level());
-
-            Level previousLevel = getLevel(level - 1);
-            Level currentLevel = getLevel(level);
-
-            //filling the level
-            for (int i = 0; i < previousLevel.nodesQuantity(); i++) {
-                Node currentNode = previousLevel.getNode(i);
-
-                //generating child nodes
-                int childNodesToGenerate = new Random().nextInt(m);
-                currentNode.setChildQuantity(childNodesToGenerate);
-                for (int j = 0; j < childNodesToGenerate; j++) {
-                    nodesQuantity++;
-                    Node nodeToAdd = new Node(currentNode, nodesQuantity);
-                    currentNode.setHanging(false);
-                    currentLevel.addNode(nodeToAdd);
-
-                    System.out.println(nodesQuantity + " " + alpha());
-
-                    //stop rule
-                    if (nodesToGenerate == 1) {
-                        return;
-                    } else {
-                        nodesToGenerate--;
-                    }
-                }
-            }
-            if (currentLevel.nodesQuantity() == 0) return;
-        }
-    }
-
+    /**
+     * Подсчет значения альфа
+     */
     public double alpha() {
         return (double)nodesQuantity / hangingNodesQuantity();
     }
 
+    /**
+     * Матожидание числа потомков
+     */
     public double expectedChildQuantity() {
         double expectedChildQuantity = 0;
         for (int i = 1; i < childQuantities().size(); i++) {
@@ -186,6 +109,9 @@ public class Tree {
         return expectedChildQuantity;
     }
 
+    /**
+     * Значения для гистограммы
+     */
     public List<Integer> childQuantities() {
         List<Integer> childQuantities = new ArrayList<>();
         for (int i = 0; i < m; i++) {
@@ -199,12 +125,18 @@ public class Tree {
         return childQuantities;
     }
 
+    /**
+     * Печатает значения для гистограммы
+     */
     public void printChildQuantityDistribution() {
         for (int i = 0; i < childQuantities().size(); i++) {
-            System.out.println(i + ":\t" + childQuantities().get(i));
+            System.out.println(i + "\t" + childQuantities().get(i));
         }
     }
 
+    /**
+     * Таблица узлов
+     */
     public void printNodesTable() {
         for (int i = 0; i < levels.size(); i++) {
             Level level = getLevel(i + 1);
@@ -216,6 +148,9 @@ public class Tree {
         }
     }
 
+    /**
+     * Таблица висячих узлов
+     */
     public void printHangingNodesTable() {
         for (int i = 0; i < levels.size(); i++) {
             Level level = getLevel(i + 1);
