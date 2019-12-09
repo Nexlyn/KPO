@@ -86,7 +86,7 @@ public class Main {
         System.out.println("Done. " + (System.currentTimeMillis() - beginTime) + "ms");
 
         double alphaDispersion = alphas.stream().mapToDouble(x -> x * x / R).sum() -
-                alphas.stream().mapToDouble(x -> x / R).sum();
+                Math.pow(alphas.stream().mapToDouble(x -> x / R).sum(), 2);
         double nodesQuantityDispersion = nodesQuantities.stream().mapToDouble(x -> x * x / (double) R).sum() -
                 Math.pow(nodesQuantities.stream().mapToDouble(x -> x / (double) R).sum(), 2);
         double hangingNodesQuantityDispersion = hangingNodesQuantities.stream().mapToDouble(x -> x * x / (double) R).sum() -
