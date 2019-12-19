@@ -12,8 +12,9 @@ using System.Linq;
 
 using System.Text;
 
-
+using KPO_Lab2_console;
 using System.IO;
+using System.Collections.ObjectModel;
 
 namespace KPO_Lab2_console
 {
@@ -39,11 +40,16 @@ namespace KPO_Lab2_console
                 for(; ; )
             {
                 Console.WriteLine("Решение по модели Джелинского - Моранды : 1\nЛинейная аппроксимация исходных данных МНК: 2");
-
+                int i = int.Parse(Console.ReadLine());
+                switch(i)
+                {
+                    case 1:morand();break;
+                    case 2:MNK();break;
+                }
             }
             }
 
-            private void bMethod1_Click(object sender, EventArgs e)
+            private static void morand()
 
             {
 
@@ -155,7 +161,7 @@ namespace KPO_Lab2_console
 
                 double m = Math.Round(K * N, 2);
 
-                int iter = 0;
+                int iter = 0; 
 
                 double P = 0;
 
@@ -188,12 +194,13 @@ namespace KPO_Lab2_console
                         File.AppendAllText("Out3.txt", "ResidualSquare[" + iter + "] = " + residualSq[iter].ToString(), Encoding.Default);
 
                         File.AppendAllText("Out3.txt", Environment.NewLine, Encoding.Default);
-
-                     //   cOutput.Series[2].Points.AddXY(iter + 1, discrepancy[iter]);
+                   // ObservableCollection<Point> discrepancyPoints=new ObservableCollection<Point>();
+                   // ObservableCollection<Point> residualSqPoints = new ObservableCollection<Point>();
+                  //  discrepancyPoints.Add(new Point(iter + 1, discrepancy[iter]));
                     //TODO:сделать  вывод точек для графика
                       //  cOutput.Series[3].Points.AddXY(iter + 1, residualSq[iter]);
 
-                    //    cOutput.Series[0].Points.AddXY(iter + 1, mDeltaN[iter]);
+                    //    cOutpu8уt.Series[0].Points.AddXY(iter + 1, mDeltaN[iter]);
 
                     }
                 Console.WriteLine("Сумма невязок: " + sumResidualSq.ToString());
@@ -213,7 +220,7 @@ namespace KPO_Lab2_console
 
             }
 
-            private void bLineAproksimation_Click(object sender, EventArgs e)
+            private static void MNK()
 
             {
 

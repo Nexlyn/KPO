@@ -1,0 +1,76 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        x:Class="KPO_Lab2_GUI.MainWindow"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dvc="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
+        mc:Ignorable="d"
+     
+        Title="MainWindow" Height="450" Width="800">
+        <StackPanel>
+        <StackPanel   Orientation="Horizontal">
+        <StackPanel  Orientation="Horizontal">
+            <TextBlock>N1</TextBlock>
+            <TextBox Width="20" x:Name="tbN1"/>
+       </StackPanel>
+            <StackPanel  Orientation="Horizontal">
+                <TextBlock>N2</TextBlock>
+                <TextBox Width="20" x:Name="tbN2"/>
+            </StackPanel>
+            <StackPanel  Orientation="Horizontal">
+            <TextBlock>N3</TextBlock>
+            <TextBox Width="20" x:Name="tbN3"/>
+       </StackPanel>
+        <StackPanel  Orientation="Horizontal">
+            <TextBlock>N4</TextBlock>
+            <TextBox Width="20" x:Name="tbN4"/>
+       </StackPanel>
+        <StackPanel  Orientation="Horizontal">
+            <TextBlock>N5</TextBlock>
+            <TextBox Width="20" x:Name="tbN5"/>
+       </StackPanel>
+        <StackPanel  Orientation="Horizontal">
+            <TextBlock>N6</TextBlock>
+            <TextBox Width="20" x:Name="tbN6"/>
+       </StackPanel>
+        <StackPanel  Orientation="Horizontal">
+            <TextBlock>N7</TextBlock>
+            <TextBox Width="20" x:Name="tbN7"/>
+       </StackPanel>
+            <Button Margin="10,0" Click="Button_Click">Решение по модели Джелинского - Моранды</Button>
+            <Button Margin="10,0" Click="Button_Click_1">МНК</Button>
+            <StackPanel  Orientation="Horizontal">
+                <TextBlock>K</TextBlock>
+                <TextBox IsReadOnly="True" Width="20" x:Name="tbK"/>
+                <StackPanel  Orientation="Horizontal">
+                    <TextBlock>N</TextBlock>
+                    <TextBox IsReadOnly="True" Width="20" x:Name="tbN0"/>
+                </StackPanel>
+                <StackPanel  Orientation="Horizontal">
+                    <TextBlock>P</TextBlock>
+                    <TextBox IsReadOnly="True" Width="100" x:Name="tbP"/>
+                </StackPanel>
+                <StackPanel  Orientation="Horizontal">
+                    <TextBlock>Сумма</TextBlock>
+                    <TextBox IsReadOnly="True" Width="20" x:Name="tbSum"/>
+                </StackPanel>
+                <StackPanel  Orientation="Horizontal">
+                    <TextBlock>Количесвто оставшихся ошибок</TextBlock>
+                    <TextBox IsReadOnly="True" Width="20" x:Name="tbCount"/>
+                </StackPanel>
+                <StackPanel  Orientation="Horizontal">
+                    <TextBlock>a</TextBlock>
+                    <TextBox IsReadOnly="True" Width="20" x:Name="tbA"/>
+                </StackPanel>
+                <StackPanel  Orientation="Horizontal">
+                    <TextBlock>b</TextBlock>
+                    <TextBox IsReadOnly="True" Width="20" x:Name="tbB"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <WindowsFormsHost >
+
+            <dvc:Chart x:Name="chart" />
+        </WindowsFormsHost>
+    </StackPanel>
+    </Window>
